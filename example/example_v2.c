@@ -11,14 +11,14 @@
 // ------------------------------------------------------------
 // Replace with your code to initialize the A matrix.
 // This simply initializes it to random values.
-// Note that A is stored column-wise, not row-wise.                 column wise 랑 row wise 차이는 뭘까?
+// Note that A is stored column-wise, not row-wise.                 
 //
 // m   - number of rows,    m >= 0.
 // n   - number of columns, n >= 0.
 // A   - m-by-n array of size lda*n.
-// lda - leading dimension of A, lda >= m.                          lda 이게 뭔지 더 봐야겠다
+// lda - leading dimension of A, lda >= m.                          
 //
-// When lda > m, rows (m, ..., lda-1) below the bottom of the matrix are ignored.       row라고 보면 된다.
+// When lda > m, rows (m, ..., lda-1) below the bottom of the matrix are ignored.       
 // This is helpful for working with sub-matrices, and for aligning the top
 // of columns to memory boundaries (or avoiding such alignment).
 // Significantly better memory performance is achieved by having the outer loop
