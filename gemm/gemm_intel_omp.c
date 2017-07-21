@@ -29,8 +29,7 @@ double TRIP_COUNT = (double) NUM * (double) NUM * (double) NUM;  //뭘 갔다온
 
 int FLOP_PER_ITERATION = 2; // basic matrix multiplication
 
-typedef struct tparam
-{
+typedef struct tparam {
     array *a, *b, *c, *t;
     int msize;
     int tidx;
@@ -89,8 +88,7 @@ void GetModelParams(int *p_nthreads, int *p_msize, int print) {    // 0 0 1
     }
 }
 
-void ParallelMultiply(int msize, TYPE a[][NUM], TYPE b[][NUM], TYPE c[][NUM], TYPE t[][NUM])
-{
+void ParallelMultiply(int msize, TYPE a[][NUM], TYPE b[][NUM], TYPE c[][NUM], TYPE t[][NUM]) {
     int NTHREADS = MAXTHREADS;
     int MSIZE = NUM;
 
@@ -101,15 +99,14 @@ void ParallelMultiply(int msize, TYPE a[][NUM], TYPE b[][NUM], TYPE c[][NUM], TY
     pthread_t ht[MAXTHREADS];
     int tret[MAXTHREADS];
     int rc;
-    void* status;
+    void *status;
 #endif
     _tparam par[MAXTHREADS];
     int tidx;
 
     GetModelParams(&NTHREADS, &MSIZE, 0);
 
-    for (tidx=0; tidx<NTHREADS; tidx++)
-    {
+    for (tidx = 0; tidx < NTHREADS; tidx++) {
         par[tidx].msize = MSIZE;
         par[tidx].numt = NTHREADS;
         par[tidx].tidx = tidx;
@@ -120,16 +117,15 @@ void ParallelMultiply(int msize, TYPE a[][NUM], TYPE b[][NUM], TYPE c[][NUM], TY
 #ifdef WIN32
         ht[tidx] = (HANDLE)CreateThread(NULL, 0, ThreadFunction, &par[tidx], 0, &tid[tidx]);
 #else
-        tret[tidx] = pthread_create( &ht[tidx], NULL, (void*)ThreadFunction, (void*) &par[tidx]);
+        tret[tidx] = pthread_create(&ht[tidx], NULL, (void *) ThreadFunction, (void *) &par[tidx]);
 #endif
     }
 #ifdef WIN32
     WaitForMultipleObjects(NTHREADS, ht, TRUE, INFINITE);
 #else // Pthreads
-    for (tidx=0; tidx<NTHREADS; tidx++)
-    {
+    for (tidx = 0; tidx < NTHREADS; tidx++) {
         //  printf("Enter join\n"); fflush(stdout);
-        rc = pthread_join(ht[tidx], (void **)&status);
+        rc = pthread_join(ht[tidx], (void **) &status);
         //  printf("Exit join\n"); fflush(stdout);
     }
 #endif
